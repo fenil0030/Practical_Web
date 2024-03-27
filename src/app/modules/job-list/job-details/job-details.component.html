@@ -1,0 +1,284 @@
+<div class="container" fxLayout="row" fxLayoutAlign="center none">
+    <div fxFlex="95%">
+
+        <mat-card>
+            <mat-card-content>
+                <div [formGroup]="_jobForm">
+                    <h3>Personal Details</h3>
+                    <div class="input-container">
+                        <mat-form-field class="dialog-input">
+                            <input matInput name="name" [formControl]="_jobForm.controls['name']" placeholder="Name"
+                                required>
+                        </mat-form-field>
+
+                        <mat-form-field class="dialog-input">
+                            <input matInput name="email" [formControl]="_jobForm.controls['email']" placeholder="Email"
+                                required>
+                        </mat-form-field>
+                    </div>
+                    <div class="input-container">
+                        <mat-form-field class="dialog-input">
+                            <mat-select [formControl]="_jobForm.controls['gender']" placeholder="Gender">
+                                <mat-option *ngFor="let d of genderDD" [value]="d">
+                                    {{d}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                        <mat-form-field class="dialog-input">
+                            <input matInput placeholder="Contact No" type="text"
+                                [formControl]="_jobForm.controls['contact']">
+                        </mat-form-field>
+                    </div>
+                    <div class="input-container">
+                        <mat-form-field class="dialog-input">
+                            <textarea matInput placeholder="Address" #message maxlength="2000"
+                                [formControl]="_jobForm.controls['address']"></textarea>
+                            <mat-hint align="end">{{message.value.length}}</mat-hint>
+                        </mat-form-field>
+                    </div>
+
+                    <div fxLayout="row wrap" fxLayout.lt-sm="column">
+                        <div fxFlex="48%" style="padding-right: 1vw;">
+                            <h3>Education Details</h3>
+                            <form [formGroup]="_eduForm">
+                                <div class="input-container">
+                                    <mat-form-field class="dialog-input">
+                                        <input matInput name="university"
+                                            [formControl]="_eduForm.controls['university']"
+                                            placeholder="Board/University" required>
+                                    </mat-form-field>
+
+                                    <mat-form-field class="dialog-input">
+                                        <input matInput name="year" type="number"
+                                            [formControl]="_eduForm.controls['year']" placeholder="Year" required>
+                                    </mat-form-field>
+                                </div>
+                                <div class="input-container">
+
+                                    <mat-form-field class="dialog-input">
+                                        <input matInput name="percentage"
+                                            [formControl]="_eduForm.controls['percentage']"
+                                            placeholder="CGPA/Percentage" required>
+                                    </mat-form-field>
+                                    <div class="example-button-row">
+                                        <button mat-raised-button color="primary" (click)="addEdu()"
+                                            [disabled]="_eduForm.invalid">Add</button>
+                                    </div>
+                                </div>
+                            </form>
+
+                            <div class="row" *ngIf="eduDetailsArr.length > 0">
+                                <table mat-table [dataSource]="eduDataSource" class="mat-elevation-z8">
+                                    <ng-container matColumnDef="university">
+                                        <th mat-header-cell *matHeaderCellDef> Board/University </th>
+                                        <td mat-cell *matCellDef="let element"> {{element.university}} </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="year">
+                                        <th mat-header-cell *matHeaderCellDef> Year </th>
+                                        <td mat-cell *matCellDef="let element"> {{element.year}} </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="percentage">
+                                        <th mat-header-cell *matHeaderCellDef> CGPA/Percentage </th>
+                                        <td mat-cell *matCellDef="let element"> {{element.percentage}} </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="action">
+                                        <th mat-header-cell *matHeaderCellDef> Action </th>
+                                        <td mat-cell *matCellDef="let element">
+                                            <!-- <button mat-icon-button mat-sm-button color="primary" class="mr-8"
+                                                matTooltip="Edit"
+                                                (click)="BuildEduForm(element)">
+                                                <mat-icon>edit</mat-icon>
+                                            </button> -->
+                                            <button mat-icon-button mat-sm-button color="warn" class="mr-8"
+                                                matTooltip="Delete" (click)="removeEdu(element)">
+                                                <mat-icon>delete</mat-icon>
+                                            </button>
+                                        </td>
+                                    </ng-container>
+
+                                    <tr mat-header-row *matHeaderRowDef="eduDisplayedCol"></tr>
+                                    <tr mat-row *matRowDef="let row; columns: eduDisplayedCol;"></tr>
+                                </table>
+                            </div>
+                        </div>
+                        <div fxFlex="2%"></div>
+                        <div fxFlex="48%">
+                            <h3>Experience Details</h3>
+                            <form [formGroup]="_expForm">
+                                <div class="input-container">
+                                    <mat-form-field class="dialog-input">
+                                        <input matInput name="companyName"
+                                            [formControl]="_expForm.controls['companyName']" placeholder="Company Name"
+                                            required>
+                                    </mat-form-field>
+
+                                    <mat-form-field class="dialog-input">
+                                        <input matInput name="designation" type="text"
+                                            [formControl]="_expForm.controls['designation']" placeholder="Designation"
+                                            required>
+                                    </mat-form-field>
+                                </div>
+                                <div class="input-container">
+
+                                    <mat-form-field class="ml-16">
+                                        <input matInput name="date" [formControl]="_expForm.controls['fromDate']"
+                                            placeholder="From Date" [matDatepicker]="fromdate1">
+
+                                        <mat-datepicker-toggle matSuffix [for]="fromdate1"></mat-datepicker-toggle>
+                                    </mat-form-field>
+                                    <mat-datepicker #fromdate1></mat-datepicker>
+
+                                    <mat-form-field class="ml-16">
+                                        <input matInput name="date" [formControl]="_expForm.controls['toDate']"
+                                            placeholder="To Date" [matDatepicker]="todate1">
+
+                                        <mat-datepicker-toggle matSuffix [for]="todate1"></mat-datepicker-toggle>
+                                    </mat-form-field>
+                                    <mat-datepicker #todate1></mat-datepicker>
+
+                                    <div class="example-button-row">
+                                        <button mat-raised-button color="primary" (click)="addExp()"
+                                            [disabled]="_expForm.invalid">Add</button>
+                                    </div>
+                                </div>
+                            </form>
+
+                            <div class="row" *ngIf="expDetailsArr.length > 0">
+                                <table mat-table [dataSource]="expDataSource" class="mat-elevation-z8">
+                                    <ng-container matColumnDef="companyName">
+                                        <th mat-header-cell *matHeaderCellDef> Company Name </th>
+                                        <td mat-cell *matCellDef="let element"> {{element.companyName}} </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="designation">
+                                        <th mat-header-cell *matHeaderCellDef> Designation </th>
+                                        <td mat-cell *matCellDef="let element"> {{element.designation}} </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="fromDate">
+                                        <th mat-header-cell *matHeaderCellDef> From Date </th>
+                                        <td mat-cell *matCellDef="let element"> {{element.fromDate | date:"dd/MM/yyyy"}}
+                                        </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="toDate">
+                                        <th mat-header-cell *matHeaderCellDef> To Date </th>
+                                        <td mat-cell *matCellDef="let element"> {{element.toDate | date:"dd/MM/yyyy"}}
+                                        </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="action">
+                                        <th mat-header-cell *matHeaderCellDef> Action </th>
+                                        <td mat-cell *matCellDef="let element">
+                                            <!-- <button mat-icon-button mat-sm-button color="primary" class="mr-8"
+                                                matTooltip="Edit"
+                                                (click)="BuildExpForm(element)">
+                                                <mat-icon>edit</mat-icon>
+                                            </button> -->
+                                            <button mat-icon-button mat-sm-button color="warn" class="mr-8"
+                                                matTooltip="Delete" (click)="removeExp(element)">
+                                                <mat-icon>delete</mat-icon>
+                                            </button>
+                                        </td>
+                                    </ng-container>
+
+                                    <tr mat-header-row *matHeaderRowDef="expDisplayedCol"></tr>
+                                    <tr mat-row *matRowDef="let row; columns: expDisplayedCol;"></tr>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div fxLayout="row wrap" fxLayout.lt-sm="column" style="margin-top: 15px;">
+                        <div fxFlex="48%" style="padding-right: 1vw;">
+                            <h3>Languages</h3>
+
+                            <div class="row" *ngFor="let item of languages; let i=index;">
+                                <div fxLayout="row wrap" fxLayout.lt-sm="column">
+                                    <div fxFlex="15%">
+                                        <mat-checkbox [(ngModel)]="languages[i].isMain" [value]="item.isMain"
+                                            [ngModelOptions]="{standalone: true}"
+                                            (change)="onLanChange(item)">{{languages[i].languageName}}</mat-checkbox>
+                                        &nbsp;&nbsp;
+                                    </div>
+                                    <div fxFlex="60%">
+
+                                        <mat-checkbox [(ngModel)]="languages[i].canRead" [value]="item.canRead"
+                                            [disabled]="!item.isMain"
+                                            [ngModelOptions]="{standalone: true}">read</mat-checkbox>&nbsp;&nbsp;
+                                        <mat-checkbox [(ngModel)]="languages[i].canWrite" [value]="item.canWrite"
+                                            [disabled]="!item.isMain"
+                                            [ngModelOptions]="{standalone: true}">write</mat-checkbox>&nbsp;&nbsp;
+                                        <mat-checkbox [(ngModel)]="languages[i].canSpeak" [value]="item.canSpeak"
+                                            [disabled]="!item.isMain"
+                                            [ngModelOptions]="{standalone: true}">speak</mat-checkbox>&nbsp;&nbsp;
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div fxFlex="2%"></div>
+                        <div fxFlex="48%" style="padding-right: 1vw;">
+                            <h3>Technical Experience</h3>
+                            <div class="row" *ngFor="let item of skills; let i=index;">
+                                <div fxLayout="row wrap" fxLayout.lt-sm="column">
+                                    <div fxFlex="15%">
+                                        <mat-checkbox [(ngModel)]="skills[i].isMain" [value]="item.isMain"
+                                            [ngModelOptions]="{standalone: true}"
+                                            (change)="onSkillChange(item)">{{skills[i].skillName}}</mat-checkbox>
+                                        &nbsp;&nbsp;
+                                    </div>
+                                    <div fxFlex="60%">
+                                        <mat-checkbox [(ngModel)]="skills[i].beginner" [value]="item.beginner"
+                                            [disabled]="!item.isMain"
+                                            [ngModelOptions]="{standalone: true}">beginner</mat-checkbox>&nbsp;&nbsp;
+                                        <mat-checkbox [(ngModel)]="skills[i].mediator" [value]="item.mediator"
+                                            [disabled]="!item.isMain"
+                                            [ngModelOptions]="{standalone: true}">mediator</mat-checkbox>&nbsp;&nbsp;
+                                        <mat-checkbox [(ngModel)]="skills[i].expert" [value]="item.expert"
+                                            [disabled]="!item.isMain"
+                                            [ngModelOptions]="{standalone: true}">expert</mat-checkbox>&nbsp;&nbsp;
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="input-container" style="margin-top: 15px;">
+                        <mat-form-field class="dialog-input">
+                            <mat-select [formControl]="_jobForm.controls['preferredLocation']" placeholder="Preferred Location">
+                                <mat-option *ngFor="let d of locationDD" [value]="d">
+                                    {{d}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+
+                        <!-- <mat-form-field class="dialog-input">
+                            <input matInput ngx-google-places-autocomplete (onAddressChange)="handleAddressChange($event)"
+                                name="address" [formControl]="_jobForm.controls['preferredLocation']" placeholder="Preferred Location">
+                        </mat-form-field> -->
+
+
+                        <mat-form-field class="dialog-input">
+                            <input matInput name="expectedCtc" [formControl]="_jobForm.controls['expectedCtc']" placeholder="Expected CTC"
+                                required>
+                        </mat-form-field>
+                    </div>
+                    <div class="input-container">
+                        <mat-form-field class="dialog-input">
+                            <input matInput name="currentCtc" [formControl]="_jobForm.controls['currentCtc']" placeholder="Current CTC"
+                                required>
+                        </mat-form-field>
+
+                        <mat-form-field class="dialog-input">
+                            <input matInput name="noticePeriod" [formControl]="_jobForm.controls['noticePeriod']" placeholder="Notice Period"
+                                required>
+                        </mat-form-field>
+                    </div>
+                </div>
+                <!-- [disabled]="_jobForm.invalid" -->
+                <div lass="mt-16">
+                    <button mat-raised-button color="primary" (click)="submit()">Save</button>
+                    <button mat-raised-button color="warn" style=" margin-left: 10px; "[routerLink]="'/'">Cancel</button>
+                </div>
+            </mat-card-content>
+        </mat-card>
+
+    </div>
+</div>

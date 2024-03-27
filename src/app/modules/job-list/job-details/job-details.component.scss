@@ -1,0 +1,28 @@
+  .input-container {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+  }
+  
+  .dialog-input{
+    width: 45%;
+    justify-content: space-between;
+  }
+  
+  .dialog-remove-container{
+    margin-left: 1%;
+  }
+
+  .example-container {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .mat-form-field{
+    padding-left: 1vw;
+    padding-right: 1vw;
+  }
+
+  table {
+    width: 100%;
+  }

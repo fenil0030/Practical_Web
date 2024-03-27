@@ -1,0 +1,24 @@
+.single-cards {
+    margin: 20px 0;
+  }
+  
+  .single-card .mat-card-avatar {
+    width: 50px;
+    height: 50px;
+  }
+  
+  .single-card .mat-icon {
+    font-size: 55px;
+  }
+  
+  .projects-card>mat-card-content {
+    max-height: 400px;
+    overflow: auto;
+  }
+  
+  .no-records .mat-icon {
+    width: 130px;
+    height: 130px;
+    font-size: 130px;
+    color: #c7c7c7;
+}

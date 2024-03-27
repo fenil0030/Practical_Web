@@ -1,0 +1,34 @@
+<mat-toolbar color="primary" class="fix-nav">
+  <button type="button" mat-icon-button class="visible-md" (click)="toggleSidebar()">
+    <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
+  </button>
+  <div class="nav-brand">
+    <a [routerLink]="['/']" style=" color: white; ">
+      Job Application
+    </a>
+
+  </div>
+  <span class="nav-spacer"></span>
+  <!-- <form class="hidden-sm" style="margin-right: 20px; margin-top: 8px">
+    <mat-form-field style="font-size: 1rem;">
+      <input matInput placeholder="Search">
+    </mat-form-field>
+  </form> -->
+  <button mat-button *ngIf="user && user.roleType === 'Admin'" [routerLink]="['/jobs']">
+    <span fxShow fxHide.xs>Job List</span>
+  </button>
+  <button mat-button [routerLink]="['/jobs/0']">
+    <span fxShow fxHide.xs>Apply Now</span>
+  </button>
+
+  <!-- <button class="hidden-sm" mat-icon-button 
+    >
+
+  </button> -->
+  <button mat-button (click)="onLoginLoggedoutBtn()">
+    <span fxShow fxHide.xs>
+      {{user && user !== undefined && user.roleType === 'Admin'? user.name:'Login'}}
+    </span>
+    <mat-icon [matTooltip]="user&& user !== undefined && user.roleType === 'Admin'? 'Logout':''">{{user && user.roleType === 'Admin'? 'exit_to_app':'login'}}</mat-icon>
+  </button>
+</mat-toolbar>
